@@ -1,7 +1,7 @@
 grammar simplejava;
 
 Program:
-    MainClass ( ClassDeclaration )*;
+    MainClass ( ClassDeclaration )* EOF;
 
 MainClass:
 	'class' Identifier '{' 'public' 'static' 'void' 'main' '(' 'String' '[' ']' Identifier ')' '{' Statement '}' '}';
@@ -50,3 +50,9 @@ Integer:
 
 Identifier:
     [A-Za-z] [a-zA-Z0-9_]+;
+
+COMMENT:
+    '/*' .*? '*/' -> channel(HIDDEN);
+
+LINE_COMMENT:
+    '//' ~[\r\n]* -> channel(HIDDEN);

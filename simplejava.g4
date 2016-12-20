@@ -29,7 +29,7 @@ type
 
 statement
     :   '{' (statement)* '}'
-    |	IF '(' expression ')' statement 'else' statement
+    |	IF '(' expression ')' statement ELSE statement
     |	WHILE '(' expression ')' statement
     |	PRINT '(' expression ')' ';'
     |	Identifier '=' expression ';'
@@ -45,7 +45,7 @@ expression
     |	TRUE
     |	FALSE
     |	Identifier
-    |	'this'
+    |	THIS
     |	NEW INT '[' expression ']'
     |	NEW Identifier '(' ')'
     |	'!' expression
@@ -71,12 +71,14 @@ RETURN  : 'return';
 INT     : 'int';
 BOOLEAN : 'boolean';
 IF      : 'if';
+ELSE    : 'else';
 WHILE   : 'while';
 TRUE    : 'true';
 FALSE   : 'false';
 NEW     : 'new';
 PRINT   : 'System.out.println';
 LENGTH  : 'length';
+THIS    : 'this';
 
 Comment
     :   '/*' .*? '*/' -> channel(HIDDEN)

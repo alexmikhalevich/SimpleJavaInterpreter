@@ -1,58 +1,87 @@
 grammar simplejava;
 
-Program:
-    MainClass ( ClassDeclaration )* EOF;
+start
+    :   main_class (class_declaration)* EOF
+    ;
 
-MainClass:
-	'class' Identifier '{' 'public' 'static' 'void' 'main' '(' 'String' '[' ']' Identifier ')' '{' Statement '}' '}';
+main_class
+    :   CLASS Identifier '{' PUBLIC STATIC VOID MAIN '(' STRING '[' ']' Identifier ')' '{' statement '}' '}'
+    ;
 
-ClassDeclaration:
-    'class' Identifier ( 'extends' Identifier )? '{' ( VarDeclaration )* ( MethodDeclaration )* '}';
+class_declaration
+    :   CLASS Identifier (EXTENDS Identifier)? '{' (var_declaration)* (method_declaration)* '}'
+    ;
 
-VarDeclaration:
-	Type Identifier ';';
+var_declaration
+    :   type Identifier ';'
+    ;
 
-MethodDeclaration:
-	'public' Type Identifier '(' ( Type Identifier ( ',' Type Identifier )* )? ')' '{' ( VarDeclaration )*
-	( Statement )* 'return' Expression ';' '}';
+method_declaration
+    :   PUBLIC type Identifier '(' (type Identifier (',' type Identifier)*)? ')' '{' (var_declaration)*
+	    (statement)* RETURN expression ';' '}';
 
-Type:
-    'int' '[' ']'
-|	'boolean'
-|	'int'
-|	Identifier;
+type
+    :   INT '[' ']'
+    |	BOOLEAN
+    |	INT
+    |	Identifier
+    ;
 
-Statement:
-	'{' ( Statement )* '}'
-|	'if' '(' Expression ')' Statement 'else' Statement
-|	'while' '(' Expression ')' Statement
-|	'System.out.println' '(' Expression ')' ';'
-|	Identifier '=' Expression ';'
-|	Identifier '[' Expression ']' '=' Expression ';';
+statement
+    :   '{' (statement)* '}'
+    |	IF '(' expression ')' statement 'else' statement
+    |	WHILE '(' expression ')' statement
+    |	PRINT '(' expression ')' ';'
+    |	Identifier '=' expression ';'
+    |	Identifier '[' expression ']' '=' expression ';'
+    ;
 
-Expression:
-	Expression ( '&&' | '<' | '+' | '-' | '*' ) Expression
-|	Expression '[' Expression ']'
-|	Expression '.' 'length'
-|	Expression '.' Identifier '(' ( Expression ( ',' Expression )* )? ')'
-|   Integer
-|	'true'
-|	'false'
-|	Identifier
-|	'this'
-|	'new' 'int' '[' Expression ']'
-|	'new' Identifier '(' ')'
-|	'!' Expression
-|	'(' Expression ')';
+expression
+    :   expression ('&&'|'<'|'+'|'-'|'*') expression
+    |	expression '[' expression ']'
+    |	expression '.' LENGTH
+    |	expression '.' Identifier '(' (expression(',' expression)*)? ')'
+    |   Integer
+    |	TRUE
+    |	FALSE
+    |	Identifier
+    |	'this'
+    |	NEW INT '[' expression ']'
+    |	NEW Identifier '(' ')'
+    |	'!' expression
+    |	'(' expression ')'
+    ;
 
-Integer:
-    [0-9]+;
+Integer
+    :   [0-9]+
+    ;
 
-Identifier:
-    [A-Za-z] [a-zA-Z0-9_]+;
+Identifier
+    :   [A-Za-z] [a-zA-Z0-9_]+
+    ;
 
-COMMENT:
-    '/*' .*? '*/' -> channel(HIDDEN);
+CLASS   : 'class';
+PUBLIC  : 'public';
+STATIC  : 'static';
+VOID    : 'void';
+MAIN    : 'main';
+STRING  : 'String';
+EXTENDS : 'extends';
+RETURN  : 'return';
+INT     : 'int';
+BOOLEAN : 'boolean';
+IF      : 'if';
+WHILE   : 'while';
+TRUE    : 'true';
+FALSE   : 'false';
+NEW     : 'new';
+PRINT   : 'System.out.println';
+LENGTH  : 'length';
 
-LINE_COMMENT:
-    '//' ~[\r\n]* -> channel(HIDDEN);
+Comment
+    :   '/*' .*? '*/' -> channel(HIDDEN)
+    ;
+
+Line_comment
+    :   '//' ~[\r\n]* -> channel(HIDDEN)
+    ;
